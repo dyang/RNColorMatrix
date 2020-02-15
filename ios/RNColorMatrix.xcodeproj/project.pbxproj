@@ -20,6 +20,9 @@
 		84B72558723CE4E5B0BB40FC /* libPods-RNColorMatrix-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8282F091BFEEE56A3D210D74 /* libPods-RNColorMatrix-tvOSTests.a */; };
 		987C5432092344896874BB83 /* libPods-RNColorMatrix-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C346C1ABD9732C11D7BDA7C4 /* libPods-RNColorMatrix-tvOS.a */; };
 		B7CE1FEA4EEFBB3C0B0C9EE4 /* libPods-RNColorMatrixTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EB31D216258FD21D0BE084B /* libPods-RNColorMatrixTests.a */; };
+		E65095B023F84DBA00DED295 /* ThumbnailGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65095AF23F84DBA00DED295 /* ThumbnailGenerator.swift */; };
+		E65095B223F84EB800DED295 /* ThumbnailGeneratorBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = E65095B123F84EB800DED295 /* ThumbnailGeneratorBridge.m */; };
+		E65095B423F84F7200DED295 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E65095B323F84F7200DED295 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +67,10 @@
 		B123F8AA6CD59117001411FD /* Pods-RNColorMatrix-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNColorMatrix-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-RNColorMatrix-tvOS/Pods-RNColorMatrix-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		B6FF55DCBE7E8310F7707094 /* Pods-RNColorMatrixTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNColorMatrixTests.release.xcconfig"; path = "Target Support Files/Pods-RNColorMatrixTests/Pods-RNColorMatrixTests.release.xcconfig"; sourceTree = "<group>"; };
 		C346C1ABD9732C11D7BDA7C4 /* libPods-RNColorMatrix-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNColorMatrix-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E65095AE23F84DB900DED295 /* RNColorMatrix-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RNColorMatrix-Bridging-Header.h"; sourceTree = "<group>"; };
+		E65095AF23F84DBA00DED295 /* ThumbnailGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailGenerator.swift; sourceTree = "<group>"; };
+		E65095B123F84EB800DED295 /* ThumbnailGeneratorBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThumbnailGeneratorBridge.m; sourceTree = "<group>"; };
+		E65095B323F84F7200DED295 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F0CA23B47035D3D6D374EB12 /* Pods-RNColorMatrix.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNColorMatrix.debug.xcconfig"; path = "Target Support Files/Pods-RNColorMatrix/Pods-RNColorMatrix.debug.xcconfig"; sourceTree = "<group>"; };
@@ -82,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E65095B423F84F7200DED295 /* AVFoundation.framework in Frameworks */,
 				5A8DFB3F18DAB7AAE357784F /* libPods-RNColorMatrix.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -125,7 +133,9 @@
 		13B07FAE1A68108700A75B9A /* RNColorMatrix */ = {
 			isa = PBXGroup;
 			children = (
+				E65095AD23F84D3E00DED295 /* Components */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
+				E65095AE23F84DB900DED295 /* RNColorMatrix-Bridging-Header.h */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -139,6 +149,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E65095B323F84F7200DED295 /* AVFoundation.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				06D2EB6248539C6C5E21B9AD /* libPods-RNColorMatrix.a */,
@@ -161,7 +172,6 @@
 				62FC739B9904DC0F9C892ABB /* Pods-RNColorMatrixTests.debug.xcconfig */,
 				B6FF55DCBE7E8310F7707094 /* Pods-RNColorMatrixTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -196,6 +206,15 @@
 				2D02E4901E0B4A5D006451C7 /* RNColorMatrix-tvOSTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E65095AD23F84D3E00DED295 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E65095AF23F84DBA00DED295 /* ThumbnailGenerator.swift */,
+				E65095B123F84EB800DED295 /* ThumbnailGeneratorBridge.m */,
+			);
+			name = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -286,11 +305,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0940;
-				ORGANIZATIONNAME = Facebook;
+				ORGANIZATIONNAME = "Derek Yang";
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						LastSwiftMigration = 1130;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -308,6 +330,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -530,6 +553,8 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				E65095B223F84EB800DED295 /* ThumbnailGeneratorBridge.m in Sources */,
+				E65095B023F84DBA00DED295 /* ThumbnailGenerator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,6 +607,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 62FC739B9904DC0F9C892ABB /* Pods-RNColorMatrixTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -605,6 +631,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B6FF55DCBE7E8310F7707094 /* Pods-RNColorMatrixTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = RNColorMatrixTests/Info.plist;
@@ -626,6 +653,7 @@
 			baseConfigurationReference = F0CA23B47035D3D6D374EB12 /* Pods-RNColorMatrix.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = RNColorMatrix/Info.plist;
@@ -637,6 +665,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = RNColorMatrix;
+				SWIFT_OBJC_BRIDGING_HEADER = "RNColorMatrix-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -646,6 +677,7 @@
 			baseConfigurationReference = 591EBD419FD577AEC25C8CBE /* Pods-RNColorMatrix.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = RNColorMatrix/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -656,6 +688,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = RNColorMatrix;
+				SWIFT_OBJC_BRIDGING_HEADER = "RNColorMatrix-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

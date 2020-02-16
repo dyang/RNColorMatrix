@@ -39,13 +39,15 @@ class ThumbnailGenerator: NSObject {
       for time in times {
         do {
           let cgImage = try generator.copyCGImage(at: time, actualTime: nil)
+          let filenameBase = UUID().uuidString
+          _ = self.saveImage(UIImage(cgImage: cgImage), name: filenameBase, flag: "-o")
 //          let colorInfos = self.findColors(UIImage(cgImage: cgImage))
 //          if let path = self.saveColorInfos(colorInfos) {
 //            pathes.append(path.absoluteString)
 //          }
           
           if let filteredImage = self.applyColorMatrixFilter(UIImage(cgImage: cgImage)),
-            let path = self.saveImage(filteredImage) {
+            let path = self.saveImage(filteredImage, name: filenameBase) {
             pathes.append(path.absoluteString)
           }
         }
@@ -74,8 +76,8 @@ class ThumbnailGenerator: NSObject {
     return timeValues
   }
     
-  private func saveImage(_ image: UIImage) -> URL? {
-    let filename = "\(UUID().uuidString).jpg"
+  private func saveImage(_ image: UIImage, name: String = UUID().uuidString, flag: String = "") -> URL? {
+    let filename = "\(name)\(flag).jpg"
     let path = getDocumentsDirectory().appendingPathComponent(filename)
     print("path: \(path)")
     
@@ -148,9 +150,9 @@ class ThumbnailGenerator: NSObject {
     // This should be derived from the target image dynamically
     colorMatrix.setDefaults()
     colorMatrix.setValue(ciImage, forKey: "inputImage")
-    colorMatrix.setValue(CIVector(x: 0.7, y: 0, z: 0, w: 0), forKey: "inputRVector")
-    colorMatrix.setValue(CIVector(x: 0, y: 0.1, z: 0, w: 0), forKey: "inputGVector")
-    colorMatrix.setValue(CIVector(x: 0, y: 0, z: 0.2, w: 0), forKey: "inputBVector")
+    colorMatrix.setValue(CIVector(x: 1, y: 0, z: 0, w: 0), forKey: "inputRVector")
+    colorMatrix.setValue(CIVector(x: 0, y: 1, z: 0, w: 0), forKey: "inputGVector")
+    colorMatrix.setValue(CIVector(x: 0, y: 0, z: 1, w: 0), forKey: "inputBVector")
     colorMatrix.setValue(CIVector(x: 0, y: 0, z: 0, w: 1), forKey: "inputAVector")
     
     if let outputImage = colorMatrix.outputImage {

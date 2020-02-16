@@ -44,7 +44,6 @@ const ThumbnailsScreen = props => {
       <Button
         title="Pick a video"
         onPress={() => {
-          // applyMatrix();
           ImagePicker.launchImageLibrary(options, response => {
             videoSelectedHandler(response.uri);
           });

@@ -39,8 +39,13 @@ class ThumbnailGenerator: NSObject {
       for time in times {
         do {
           let cgImage = try generator.copyCGImage(at: time, actualTime: nil)
-          let colorInfos = self.findColors(UIImage(cgImage: cgImage))
-          if let path = self.saveColorInfos(colorInfos) {
+//          let colorInfos = self.findColors(UIImage(cgImage: cgImage))
+//          if let path = self.saveColorInfos(colorInfos) {
+//            pathes.append(path.absoluteString)
+//          }
+          
+          if let filteredImage = self.applyColorMatrixFilter(UIImage(cgImage: cgImage)),
+            let path = self.saveImage(filteredImage) {
             pathes.append(path.absoluteString)
           }
         }
@@ -69,6 +74,22 @@ class ThumbnailGenerator: NSObject {
     return timeValues
   }
     
+  private func saveImage(_ image: UIImage) -> URL? {
+    let filename = "\(UUID().uuidString).jpg"
+    let path = getDocumentsDirectory().appendingPathComponent(filename)
+    print("path: \(path)")
+    
+    do {
+      try image.jpegData(compressionQuality: 0.6)?.write(to: path)
+    }
+    catch {
+      print(error.localizedDescription)
+      return nil
+    }
+    
+    return path
+  }
+  
   private func saveColorInfos(_ colorInfos: [ColorInfo]) -> URL? {
     let filename = "\(UUID().uuidString).json"
     let path = getDocumentsDirectory().appendingPathComponent(filename)
@@ -106,10 +127,10 @@ class ThumbnailGenerator: NSObject {
     let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
     
     var imageColors: [ColorInfo] = []
+    
     for x in 0..<imageWidth {
       for y in 0..<imageHeight {
-        let point = CGPoint(x: x, y: y)
-        let pixelInfo: Int = ((imageWidth * Int(point.y)) + Int(point.x)) * 4
+        let pixelInfo: Int = ((imageWidth * y) + x) * 4
         imageColors.append(ColorInfo(r: CGFloat(data[pixelInfo]),
                                      g: CGFloat(data[pixelInfo + 1]),
                                      b: CGFloat(data[pixelInfo + 2]),
@@ -117,6 +138,26 @@ class ThumbnailGenerator: NSObject {
       }
     }
     return imageColors
+  }
+  
+  private func applyColorMatrixFilter(_ image: UIImage) -> UIImage? {
+    guard let ciImage = CIImage(image: image),
+      let colorMatrix = CIFilter(name: "CIColorMatrix") else { return nil }
+    
+    // Hardcoded image filter for test
+    // This should be derived from the target image dynamically
+    colorMatrix.setDefaults()
+    colorMatrix.setValue(ciImage, forKey: "inputImage")
+    colorMatrix.setValue(CIVector(x: 0.7, y: 0, z: 0, w: 0), forKey: "inputRVector")
+    colorMatrix.setValue(CIVector(x: 0, y: 0.1, z: 0, w: 0), forKey: "inputGVector")
+    colorMatrix.setValue(CIVector(x: 0, y: 0, z: 0.2, w: 0), forKey: "inputBVector")
+    colorMatrix.setValue(CIVector(x: 0, y: 0, z: 0, w: 1), forKey: "inputAVector")
+    
+    if let outputImage = colorMatrix.outputImage {
+      return UIImage(ciImage: outputImage)
+    }
+    
+    return nil
   }
   
   @objc

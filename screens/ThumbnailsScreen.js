@@ -1,30 +1,44 @@
-import React, {Component} from 'react';
-import {NativeModules} from 'react-native';
-import {View, StyleSheet, SafeAreaView, FlatList, Text} from 'react-native';
+import React from 'react';
+import {
+  NativeModules,
+  StyleSheet,
+  SafeAreaView,
+  FlatList,
+  Button,
+} from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 
 const ThumbnailGenerator = NativeModules.ThumbnailGenerator;
 
-class ThumbnailsScreen extends Component {
-  componentDidMount() {
-    console.log('>>> componentDidMount');
-    // const foo = require('../assets/bubbles.mp4');
-    // console.log('>>> ' + foo);
-    console.log(ThumbnailGenerator);
-    ThumbnailGenerator.foo('../assets/bubbles.mp4', stuff => {
-      console.log('>>> stuff: ' + stuff);
-    });
-    // console.log('>>> bar: ' + bar);
-    //   ThumbnailGenerator.generateThumbnails('./')
-  }
-  render() {
-    return (
-      <SafeAreaView style={styles.screen}>
-        <Text>Thumbnails</Text>
-        <FlatList />
-      </SafeAreaView>
-    );
-  }
-}
+const videoSelectedHandler = uri => {
+  ThumbnailGenerator.generateThumbnails(uri, (error, result) => {
+    console.log('>>> error: ', error);
+    console.log('>>> result: ', result);
+  });
+};
+
+const buttonHeader = () => {
+  const options = {
+    mediaType: 'video',
+  };
+  return (
+    <Button
+      title="Pick a video"
+      onPress={() => {
+        ImagePicker.launchImageLibrary(options, response => {
+          videoSelectedHandler(response.uri);
+        });
+      }}
+    />
+  );
+};
+const ThumbnailsScreen = props => {
+  return (
+    <SafeAreaView style={styles.screen}>
+      <FlatList ListHeaderComponent={buttonHeader} />
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
   screen: {

@@ -13,6 +13,4 @@
 
 RCT_EXTERN_METHOD(generateThumbnails:(NSString *)videoUrl callback:(RCTResponseSenderBlock)callback)
 
-RCT_EXTERN_METHOD(foo:(NSString *)input callback:(RCTResponseSenderBlock)callback)
-
 @end

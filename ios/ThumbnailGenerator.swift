@@ -41,6 +41,8 @@ class ThumbnailGenerator: NSObject {
           let cgImage = try generator.copyCGImage(at: time, actualTime: nil)
           let filenameBase = UUID().uuidString
           _ = self.saveImage(UIImage(cgImage: cgImage), name: filenameBase, flag: "-o")
+          
+          // Another option: Save colorInfo to local disk. These will be available to javascript in React Native
 //          let colorInfos = self.findColors(UIImage(cgImage: cgImage))
 //          if let path = self.saveColorInfos(colorInfos) {
 //            pathes.append(path.absoluteString)
@@ -92,7 +94,7 @@ class ThumbnailGenerator: NSObject {
     return path
   }
   
-  private func saveColorInfos(_ colorInfos: [ColorInfo]) -> URL? {
+  private func saveColorInfos(_ colorInfos: [CGFloat]) -> URL? {
     let filename = "\(UUID().uuidString).json"
     let path = getDocumentsDirectory().appendingPathComponent(filename)
     print("path: \(path)")
@@ -114,29 +116,22 @@ class ThumbnailGenerator: NSObject {
     return paths[0]
   }
   
-  struct ColorInfo: Codable {
-    var r: CGFloat
-    var g: CGFloat
-    var b: CGFloat
-    var a: CGFloat
-  }
-  
-  private func findColors(_ image: UIImage) -> [ColorInfo] {
+  private func findColors(_ image: UIImage) -> [CGFloat] {
     let imageWidth = Int(image.size.width)
     let imageHeight = Int(image.size.height)
     
     guard let pixelData = image.cgImage?.dataProvider?.data else { return [] }
     let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
     
-    var imageColors: [ColorInfo] = []
+    var imageColors: [CGFloat] = []
     
     for x in 0..<imageWidth {
       for y in 0..<imageHeight {
         let pixelInfo: Int = ((imageWidth * y) + x) * 4
-        imageColors.append(ColorInfo(r: CGFloat(data[pixelInfo]),
-                                     g: CGFloat(data[pixelInfo + 1]),
-                                     b: CGFloat(data[pixelInfo + 2]),
-                                     a: CGFloat(data[pixelInfo + 3])))
+        imageColors.append(CGFloat(data[pixelInfo]))
+        imageColors.append(CGFloat(data[pixelInfo + 1]))
+        imageColors.append(CGFloat(data[pixelInfo + 2]))
+        imageColors.append(CGFloat(data[pixelInfo + 3]))
       }
     }
     return imageColors
@@ -155,6 +150,7 @@ class ThumbnailGenerator: NSObject {
     colorMatrix.setValue(CIVector(x: 0, y: 0, z: 1, w: 0), forKey: "inputBVector")
     colorMatrix.setValue(CIVector(x: 0, y: 0, z: 0, w: 1), forKey: "inputAVector")
     
+    // TODO: Result image seems to have trippled its size. Investigate!
     if let outputImage = colorMatrix.outputImage {
       return UIImage(ciImage: outputImage)
     }
